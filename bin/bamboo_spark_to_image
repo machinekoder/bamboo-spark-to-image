@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+# coding=utf-8
+import os
+import sys
+from bamboo_spark_to_image import convert
+
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        sys.stderr.write('Not enough arguments.\n')
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    output_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.abshpath('.')
+    pages = convert.extract_pages_from_pdf(filename)
+    for page in pages:
+        new_file = convert.extract_image_from_pdf(page, output_dir)
+        convert.add_border_to_image(new_file)
